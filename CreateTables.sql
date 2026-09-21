@@ -4,8 +4,7 @@ CREATE TABLE Cars
     Brand NVARCHAR(50) NOT NULL,
     Model NVARCHAR(50) NOT NULL,
     ProductionYear SMALLINT NOT NULL,
-    DailyRate DECIMAL(10,2) NOT NULL,
-    Status NVARCHAR(20) NOT NULL
+    DailyRate DECIMAL(10,2) NOT NULL
 );
 
 CREATE TABLE Customers
@@ -25,14 +24,22 @@ CREATE TABLE RentalLocations
     Address NVARCHAR(150) NOT NULL
 );
 
+CREATE TABLE RentalDates
+(
+    DateID INT IDENTITY(1, 1) PRIMARY KEY,
+    StartDate DATE NOT NULL,
+    EndDate DATE NOT NULL,
+    EndMonth INT NOT NULL,
+    EndYear INT NOT NULL
+)
+
 CREATE TABLE Rentals
 (
     RentalID INT IDENTITY(1,1) PRIMARY KEY,
     CarID INT NOT NULL,
     CustomerID INT NOT NULL,
     LocationID INT NOT NULL,
-    StartDate DATE NOT NULL,
-    EndDate DATE NOT NULL,
+    DateID INT NOT NULL,
     TotalPrice DECIMAL(10,2) NOT NULL,
 
     CONSTRAINT FK_Rentals_Cars
@@ -42,6 +49,9 @@ CREATE TABLE Rentals
         FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
 
     CONSTRAINT FK_Rentals_RentalLocations
-        FOREIGN KEY (LocationID) REFERENCES RentalLocations(LocationID)
+        FOREIGN KEY (LocationID) REFERENCES RentalLocations(LocationID),
+
+    CONSTRAINT FK_Rentals_RentalDates
+        FOREIGN KEY (DateID) REFERENCES RentalDates(DateID)
 );
 GO

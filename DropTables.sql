@@ -9,3 +9,6 @@ GO
 
 DROP TABLE dbo.RentalLocations;
 GO
+
+DROP TABLE dbo.RentalDates;
+GO

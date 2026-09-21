@@ -10,5 +10,9 @@ EXEC dbo.FillRentalLocations;
 GO
 
 
+EXEC dbo.FillDates;
+GO
+
+
 EXEC dbo.FillRentals;
 GO
