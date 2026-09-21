@@ -2,21 +2,22 @@ WITH YearMonthRevCTE AS
 (
 	SELECT 
 		CASE 
-			WHEN GROUPING(YEAR(EndDate)) = 1 THEN 'Summary'
-			ELSE CAST(YEAR(EndDate) AS VARCHAR(4))
+			WHEN GROUPING(RD.EndYear) = 1 THEN 'Summary'
+			ELSE CAST(RD.EndYear AS VARCHAR(4))
 		END AS [Year],
 		CASE
-			WHEN GROUPING(MONTH(EndDate)) = 1 THEN 'Summary'
+			WHEN GROUPING(RD.EndMonth) = 1 THEN 'Summary'
 			ELSE FORMAT
 				(
-				DATEFROMPARTS(2000, MONTH(EndDate), 1),
+				DATEFROMPARTS(2000, RD.EndMonth, 1),
 				'MMMM',
 				'en-US'
 				)
 		END AS [Month],
-		SUM(TotalPrice) AS Revenue
-	FROM Rentals
-	GROUP BY CUBE(YEAR(EndDate), MONTH(EndDate))
+		SUM(R.TotalPrice) AS Revenue
+	FROM Rentals R
+	JOIN RentalDates RD ON RD.DateID = R.DateID
+	GROUP BY CUBE(RD.EndYear, RD.EndMonth)
 )
 
 

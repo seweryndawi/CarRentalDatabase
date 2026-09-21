@@ -1,10 +1,11 @@
 WITH MonthlyRevenueCTE AS (
 	SELECT 
-		YEAR(EndDate) AS [Year],
-		MONTH(EndDate) AS [Month],
-		SUM(TotalPrice) AS [Revenue]
-	FROM Rentals
-	GROUP BY YEAR(EndDate), MONTH(EndDate)
+		RD.EndYear AS [Year],
+		RD.EndMonth AS [Month],
+		SUM(R.TotalPrice) AS [Revenue]
+	FROM Rentals R
+	JOIN RentalDates RD ON R.DateID = RD.DateID
+	GROUP BY RD.EndYear, RD.EndMonth
 )
 
 

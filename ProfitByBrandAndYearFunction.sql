@@ -11,8 +11,9 @@ BEGIN
 	SELECT @Profit = SUM(R.TotalPrice)
 	FROM Rentals R
 	JOIN Cars C ON C.CarID = R.CarID
+	JOIN RentalDates RD ON RD.DateID = R.DateID
 	WHERE C.Brand = @Brand
-		AND YEAR(R.StartDate) = @Year
+		AND RD.EndYear = @Year
 
 	RETURN @Profit;
 END;
