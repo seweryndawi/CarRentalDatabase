@@ -4,7 +4,13 @@ CREATE TABLE Cars
     Brand NVARCHAR(50) NOT NULL,
     Model NVARCHAR(50) NOT NULL,
     ProductionYear SMALLINT NOT NULL,
-    DailyRate DECIMAL(10,2) NOT NULL
+    DailyRate DECIMAL(10,2) NOT NULL,
+
+    CONSTRAINT CK_Cars_DailyRate
+        CHECK (DailyRate >= 0),
+
+    CONSTRAINT CK_Cars_ProductionYear
+        CHECK (ProductionYear >= 0)
 );
 
 CREATE TABLE Customers
@@ -30,8 +36,17 @@ CREATE TABLE RentalDates
     StartDate DATE NOT NULL,
     EndDate DATE NOT NULL,
     EndMonth INT NOT NULL,
-    EndYear INT NOT NULL
-)
+    EndYear INT NOT NULL,
+
+    CONSTRAINT CK_RentalDates_StartDate_EndDate
+        CHECK (EndDate >= StartDate),
+
+    CONSTRAINT CK_RentalDates_EndMonth
+        CHECK (EndMonth <= 12 AND EndMonth >= 1),
+
+    CONSTRAINT CK_RentalDates_EndYear
+        CHECK (EndYear >= 2000 AND EndYear <= 9999)
+);
 
 CREATE TABLE Rentals
 (
